@@ -3,26 +3,20 @@
 angular.module('myApp.routes', ['ngRoute', 'simpleLogin'])
 
   .constant('ROUTES', {
+    '/info': {
+      templateUrl: 'partials/info.html'
+    },
     '/home': {
-      templateUrl: 'partials/home.html',
-      controller: 'HomeCtrl',
-      resolve: {
-        // forces the page to wait for this promise to resolve before controller is loaded
-        // the controller can then inject `user` as a dependency. This could also be done
-        // in the controller, but this makes things cleaner (controller doesn't need to worry
-        // about auth status or timing of displaying its UI components)
-        user: ['simpleLogin', function(simpleLogin) {
-          return simpleLogin.getUser();
-        }]
-      }
+      templateUrl: 'partials/home.html'
     },
-      '/agency': {
-      templateUrl: 'partials/agency.html',
-      controller: 'ChatCtrl'
+    '/students': {
+      templateUrl: 'partials/students.html'
     },
-    '/chat': {
-      templateUrl: 'partials/chat.html',
-      controller: 'ChatCtrl'
+      '/companies': {
+      templateUrl: 'partials/companies.html'
+    },
+    '/contact': {
+      templateUrl: 'partials/contact.html'
     },
     '/login': {
       templateUrl: 'partials/login.html',

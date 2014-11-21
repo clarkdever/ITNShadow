@@ -36,9 +36,92 @@
     <![endif]-->
 
 </head>
-<body ng-cloak>
+<body ng-cloak id="page-top" class="index" ng-contoller="AppCtrl">
 
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">ITN: Shadow Program</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="./#/info">About</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="./#/students">Students</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="./#/companies">Companies</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="./#/contact">Contact</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" ng-show-auth href="./#/account">Account</a>
+                        <a class="page-scroll" ng-hide-auth href="./#/register">Register</a>
+                    </li>
+                        <!-- 
+                        <li><a href="#/home">home</a></li>
+                        <li><a href="#/chat">chat</a></li>
+                        <li><a href="#/agency">agency</a></li>
+                        <li ng-hide-auth><a href="#/login">login</a></li>
+                        <li ng-show-auth><a href="#/account">account</a></li -->
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="intro-text">
+                <div class="intro-lead-in">Explore a career!</div>
+                <div class="intro-heading">Shadow a professional</div>
+                <a href="./#/account" class="page-scroll btn btn-xl">Sign Me Up!</a>
+            </div>
+        </div>
+    </header>
+
+  <!--Router -->
   <div ng-view></div>
+
+  <footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <span class="copyright">&copy; 2014 infoTech Niagara</span>
+            </div>
+            <div class="col-md-4">
+                <ul class="list-inline social-buttons">
+                    <li><a href="https://twitter.com/infotechniagara"><i class="fa fa-twitter"></i></a>
+                    </li>
+                    <li><a href="https://www.facebook.com/infotechniagara"><i class="fa fa-facebook"></i></a>
+                    </li>
+                    <li><a href="http://www.linkedin.com/groups/infoTech-Niagara-38360/about"><i class="fa fa-linkedin"></i></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+            </div>
+        </div>
+    </div>
+  </footer>
 
   <!-- In production use:
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.x/angular.min.js"></script>

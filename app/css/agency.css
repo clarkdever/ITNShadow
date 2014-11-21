@@ -321,7 +321,7 @@ header .intro-text .intro-heading {
 }
 
 section {
-    padding: 100px 0;
+    padding: 30px 0;
 }
 
 section h2.section-heading {
@@ -341,7 +341,7 @@ section h3.section-subheading {
 
 @media(min-width:768px) {
     section {
-        padding: 150px 0;
+        padding: 30px 0;
     }
 }
 
@@ -500,6 +500,10 @@ section h3.section-subheading {
     margin-top: 12px;
     font-size: 10px;
     line-height: 14px;
+}
+
+.white {
+    color: white;
 }
 
 .timeline>li.timeline-inverted>.timeline-panel {
@@ -714,6 +718,14 @@ section#contact:-ms-input-placeholder {
 
 section#contact .text-danger {
     color: #e74c3c;
+}
+
+section#contact h3 {
+    color: #fed136;
+}
+
+section#contact h4 {
+    color: #fed136;
 }
 
 footer {
