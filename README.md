@@ -1,6 +1,6 @@
 # infoTech Niagara Shadow Program Website
 
-It uses [startbootstrap-agency] https://github.com/IronSummitMedia/startbootstrap-agency as a base for it's design and layout.
+It uses [startbootstrap-agency] (https://github.com/IronSummitMedia/startbootstrap-agency) as a base for it's design and layout.
 
 ## How to use this website
 
@@ -56,13 +56,17 @@ configure your server to serve the files under the `app/` directory.
 
 ## Contact
 
-clarkdever@gmail.com
+Clark Dever: clarkdever@gmail.com
 
 For more information on AngularJS please check out http://angularjs.org/
 
-[git]: http://git-scm.com/
-[npm]: https://www.npmjs.org/
-[node]: http://nodejs.org
-[http-server]: https://github.com/nodeapps/http-server
-[agency-bootstrap]: https://github.com/IronSummitMedia/startbootstrap-agency
+[git](http://git-scm.com/)
+
+[npm](https://www.npmjs.org/)
+
+[node](http://nodejs.org)
+
+[http-server](https://github.com/nodeapps/http-server)
+
+[agency-bootstrap](https://github.com/IronSummitMedia/startbootstrap-agency)
 
