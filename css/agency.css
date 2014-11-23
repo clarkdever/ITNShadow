@@ -234,7 +234,7 @@ fieldset[disabled] .btn-xl.active {
     .navbar-default {
         padding: 25px 0;
         border: 0;
-        background-color: transparent;
+        background-color: #222;
         -webkit-transition: padding .3s;
         -moz-transition: padding .3s;
         transition: padding .3s;
@@ -321,6 +321,7 @@ header .intro-text .intro-heading {
 }
 
 section {
+    margin-top: 73px;
     padding: 30px 0;
 }
 
