@@ -56,7 +56,7 @@ configure your server to serve the files under the `app/` directory.
 
 ## Contact
 
-[Clark Dever]: mailto:clarkdever@gmail.com
+clarkdever@gmail.com
 
 For more information on AngularJS please check out http://angularjs.org/
 
