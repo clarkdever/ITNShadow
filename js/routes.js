@@ -5,6 +5,9 @@ angular.module('myApp.routes', ['ngRoute'])
  .config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
+      when('/', {
+        templateUrl:  'partials/home.html'
+      }).
       when('/info', {
         templateUrl:  'partials/info.html'
       }).
@@ -27,4 +30,3 @@ angular.module('myApp.routes', ['ngRoute'])
         redirectTo: 'partials/home.html'
       });
   }]);
-
