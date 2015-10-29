@@ -26,6 +26,12 @@ angular.module('myApp.routes', ['ngRoute'])
       when('/register', {
         templateUrl:  'partials/register.html'
       }).
+		when('/students/apply', {
+			templateUrl:  'partials/studentsform.html'
+		}).
+		when('/companies/apply', {
+			templateUrl:  'partials/companiesform.html'
+		}).
       otherwise({
         redirectTo: 'partials/home.html'
       });

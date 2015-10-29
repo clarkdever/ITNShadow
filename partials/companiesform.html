@@ -1,0 +1,220 @@
+<!-- About Section -->
+<section id="companies" ng-controller="formsubmission.controller">
+    <div class="container">
+      <div ng-show="!(form.posted)" class="row">
+            <div class="col-lg-12 text-center">
+                <h2>infoTech WNY Shadow Program</h2>
+                <h1 class="section-heading">Sponsor Registration</h1>
+                <p>
+                    Register  to participate in the InfoTech WNY Shadow Program as a sponsoring professional.
+                </p>
+            </div>
+        </div>
+
+
+        <div class="row" >
+
+            <div class="container">
+
+                <div ng-show="(form.posted)" class="col-lg-12 text-center">
+
+
+                    <h2>Thank you for volunteering to provide a shadowing opportunity for a student.</h2>
+                    <p> Your submission ID is <strong>{{ form.id }}</strong>.</p>
+                    <p> If you have any questions about the program or need to change your responses, please feel free to contact Melissa Ruggiero (mrugg@buffalo.edu, 645-3232). One of our InfoTech WNY Shadow Day committee members will be in touch closer to the shadow days with your matched student(s) or if we have additional questions.</p>
+                </div>
+
+                <form novalidate name="userForm" ng-submit="false"  ng-show="!(form.posted)">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-8">
+
+                    <div class="form-group" ng-class="{ 'has-error': (userForm.$submitted || userForm.CompanyName.$touched) && userForm.CompanyName.$invalid }">
+                        <label for="CompanyName">Company Name *</label>
+                        <input required type="text" ng-model="form.CompanyName" class="form-control" name="CompanyName" id="CompanyName">
+                        <span class="text-danger" ng-messages="userForm.CompanyName.$error" ng-show="userForm.$submitted || userForm.CompanyName.$touched" >
+                            <span  ng-message="required">Your Company Name is required.</span>
+                        </span>
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error': (userForm.$submitted || userForm.CompanyURL.$touched) && userForm.CompanyURL.$invalid }">
+                        <label for="CompanyURL">Company URL *</label>
+                        <input type="text" ng-model="form.CompanyURL" class="form-control" id="CompanyURL">
+                        <span class="text-danger" ng-messages="userForm.CompanyURL.$error" ng-show="userForm.$submitted || userForm.CompanyURL.$touched" >
+                            <span  ng-message="required">Your Company URL is required.</span>
+                        </span>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error': (userForm.$submitted || userForm.Person.$touched) && userForm.Person.$invalid }">
+                        <label for="Person">Name of person to be shadowed *</label>
+                        <input required type="text" ng-model="form.PersonToBeShadowed" class="form-control" name="Person" id="Person">
+                         <span class="text-danger" ng-messages="userForm.Person.$error" ng-show="userForm.$submitted || userForm.Person.$touched" >
+                            <span  ng-message="required">The name of person to be shadowed is required.  If not yet determined, list the contact name with which the administators can communicate.</span>
+                        </span>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error': (userForm.$submitted || userForm.Phone.$touched) && userForm.Phone.$invalid }">
+                        <label for="Phone">Contact Phone Number *</label>
+                        <input required type="text" ng-model="form.Phone" class="form-control" name="Phone" id="Phone">
+                        <span class="text-danger" ng-messages="userForm.Phone.$error" ng-show="userForm.$submitted || userForm.Phone.$touched" >
+                            <span  ng-message="required">The contact phone number is required.</span>
+                        </span>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error':  (userForm.$submitted || userForm.Email.$touched) && userForm.Email.$invalid }">
+                        <label for="Email">Contact E-mail Address *</label>
+                        <input required type="text" ng-model="form.Email" class="form-control" name="Email" id="Email">
+                        <span class="text-danger" ng-messages="userForm.Email.$error" ng-show="userForm.$submitted || userForm.Email.$touched" >
+                            <span  ng-message="required">The contact email is required.</span>
+                        </span>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error':  (userForm.$submitted ||userForm.Title.$touched) && userForm.Title.$invalid }">
+                        <label for="Title">Job title of the person to be shadowed *</label>
+                        <input required type="text" ng-model="form.Title" class="form-control" id="Title" name="Title">
+                        <span class="text-danger" ng-messages="userForm.Title.$error" ng-show="userForm.$submitted || userForm.Title.$touched" >
+                            <span  ng-message="required">The contact title is required.</span>
+                        </span>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error':  (userForm.$submitted ||userForm.Description.$touched) && userForm.Description.$invalid }">
+                        <label for="Description">Job Description: *</label>
+                        <textarea required rows="4" ng-model="form.Description" class="form-control" name="Description" id="Description"></textarea>
+                        <small>(i.e. Duties & Responsibilities of person to be shadowed. The more descriptive you are, the more prepared the student will be for the shadow day.)</small>
+                        <span class="text-danger" ng-messages="userForm.Description.$error" ng-show="userForm.$submitted || userForm.Description.$touched" >
+
+                            <br><span  ng-message="required">The job description is required.</span>
+                        </span>
+                    </div>
+
+
+                    <!-- area -->
+                    <label>Person to be shadowed's field of work.</label>
+
+                    <div ng-repeat="area in areas" class="checkbox">
+                        <label><input ng-model="form.areas[area]" type="checkbox">{{ area }}</label>
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error':  (userForm.$submitted ||userForm.Address.$touched) && userForm.Address.$invalid }">
+                        <label for="Address">Site Address *</label>
+                        <textarea required rows="4" ng-model="form.Address" class="form-control" name="Address" id="Address"></textarea>
+                        <small>Meeting location for shadow day, list street address, city, state and zip.</small>
+                        <span class="text-danger" ng-messages="userForm.Address.$error" ng-show="userForm.$submitted || userForm.Address.$touched" >
+                            <br><span  ng-message="required">The site address is required.</span>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="Instructions">Any further instructions for student</label>
+                        <textarea rows="4" ng-model="form.Instructions" class="form-control"
+                                  id="Instructions"></textarea>
+                        <small>(i.e. parking, lunch, etc)</small>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error':  (userForm.$submitted ||userForm.DressCode.$touched) && userForm.DressCode.$invalid }">
+                        <label for="Description">Dress Code for Student: *</label><br>
+                        <select ng-model="userForm.DressCode" name="DressCode" required>
+                            <option>Business Formal</option>
+                            <option>Business Casual</option>
+                            <option>Casual</option>
+                        </select>
+                        <small></small>
+                        <span class="text-danger" ng-messages="userForm.DressCode.$error" ng-show="userForm.$submitted || userForm.DressCode.$touched" >
+
+                            <br><span  ng-message="required">The dress code is required.</span>
+                        </span>
+                    </div>
+                    <label>Student Level Desired:</label>
+                    <div ng-repeat="level in studentlevels" class="checkbox">
+                        <label><input ng-model="form.studentlevels[level]" type="checkbox">{{ level }}</label>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error':  (userForm.$submitted ||userForm.ShadowsForDay1.$touched) && userForm.ShadowsForDay1.$invalid }">
+                        <label for="ShadowsForDay1">Shadows desired for January 7, 2016: *</label><br>
+                        <div class="row">
+
+                            <div class="col col-xs-1" ng-repeat="val in [0,1,2,3,4,5,6,7,8,9,10]" >
+                                {{val}}<br>
+                                <input type="radio" ng-model="form.ShadowsForDay1" name="ShadowsForDay1" value="{{val}}" ng-required="!ShadowsForDay1">
+                            </div>
+                            <div class="col col-xs-2"></div>
+                            </div>
+                        <span class="text-danger" ng-messages="userForm.ShadowsForDay1.$error" ng-show="userForm.$submitted || userForm.ShadowsForDay1.$touched" >
+
+                            <br><span  ng-message="required">Enter a number of desired shadows for day 1.</span>
+                        </span>
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error':  (userForm.$submitted ||userForm.ShadowsForDay2.$touched) && userForm.ShadowsForDay2.$invalid }">
+                        <label for="ShadowsForDay2">Shadows desired for January 8, 2016: *</label><br>
+                        <div class="row">
+
+                            <div class="col col-xs-1" ng-repeat="val in [0,1,2,3,4,5,6,7,8,9,10]" >
+                                {{val}}<br>
+                                <input type="radio" ng-model="form.ShadowsForDay2"  name="ShadowsForDay2" value="val" ng-required="!ShadowsForDay2">
+                            </div>
+                            <div class="col col-xs-2"></div>
+
+                        </div>
+                        <span class="text-danger" ng-messages="userForm.ShadowsForDay2.$error" ng-show="userForm.$submitted || userForm.ShadowsForDay2.$touched" >
+
+                            <br><span  ng-message="required">Enter a number of desired shadows for day 2.</span>
+
+                        </span>
+
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error':  (userForm.$submitted ||userForm.VisaWork.$touched) && userForm.VisaWork.$invalid }">
+                        <label for="VisaWork">Are you open to students of any visa/work authorization type to shadow for this educational purpose? *</label><br>
+                        <div class="row">
+
+                            <div class="col col-xs-1" ng-repeat="val in ['Yes','No']" >
+                                {{val}}&nbsp;
+                                <input type="radio" ng-model="form.VisaWork" name="VisaWork" value="{{val}}" ng-required="!VisaWork">
+                            </div>
+                            <div class="col col-xs-2"></div>
+                        </div>
+                        <span class="text-danger" ng-messages="userForm.VisaWork.$error" ng-show="userForm.$submitted || userForm.VisaWork.$touched" >
+
+                            <br><span  ng-message="required">Please identify whether you'll accept students with a Visa or Work Authorization.</span>
+
+                        </span>
+
+                    </div>
+
+                    <div ng-show="form.VisaWork == 'No'" class="form-group" ng-class="{ 'has-error':  (userForm.$submitted ||userForm.RestrictStudentsTo.$touched) && userForm.RestrictStudentsTo.$invalid }">
+                        <label for="RestrictStudentsTo">If NO to the question above, restrict student participation to: *</label><br>
+                        <div class="row">
+
+                            <div class="col col-xs-4" ng-repeat="val in ['US Citizens','US Citizens AND Permanent Residents']" >
+
+                                <input type="radio" ng-model="form.RestrictStudentsTo" name="RestrictStudentsTo" value="{{val}}" ng-required="!RestrictStudentsTo">&nbsp;{{val}}
+                            </div>
+                            <div class="col col-xs-4"></div>
+                        </div>
+                        <small>Reminder: this is only a shadow experience, not an internship or any type of employment.</small>
+                        <span class="text-danger" ng-messages="userForm.RestrictStudentsTo.$error" ng-show="userForm.$submitted || userForm.RestrictStudentsTo.$touched" >
+
+                            <br><span  ng-message="required">Please identify whether you'll accept students with a Visa or Work Authorization.</span>
+
+                        </span>
+                    </div>
+
+
+
+
+
+
+                    <br>
+                    <button type="submit" ng-click="submitForm('Company')" class="btn btn-primary" >Submit</button>
+
+                </div>
+
+                <div class="col-md-2"></div>
+
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+
+    </div>
+    <!--
+    [{{form}}]
+    -->
+    </div>
+</section>

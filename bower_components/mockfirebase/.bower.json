@@ -33,6 +33,6 @@
     "commit": "4f8b874a3d83fa1ccd55681137d4f0fed1218cbe"
   },
   "_source": "git://github.com/katowulf/mockfirebase.git",
-  "_target": "0.2.x",
+  "_target": "~0.2.9",
   "_originalSource": "mockfirebase"
 }
