@@ -36,6 +36,7 @@ app.controller('formsubmission.controller',function($scope,Azureservice){
 		if($scope.userForm.$valid){
 
 			$scope.form.areas = angular.toJson($scope.form.areas);
+			$scope.form.studentlevels = angular.toJson($scope.form.studentlevels);
 
 			Azureservice.insert(type, $scope.form)
 				.then(function(response) {
