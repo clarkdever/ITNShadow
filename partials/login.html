@@ -1,0 +1,62 @@
+<!-- Login Section -->
+<div ng-controller="login.controller">
+
+    <section ng-show="!loggedIn()" id="login" >
+
+        <div class="container">
+
+            <div class="row">
+                <h2>Login</h2>
+
+                <form autocomplete="off">
+                    <div ng-show="userMessage != ''" class="alert alert-warning alert-dismissable" role="alert">{{userMessage}}</div>
+                    <fieldset>
+
+                        <label>
+                            <span>Email:</span>
+                            <input type="text" autocomplete="off" class="form-control" name="email" ng-model="login.email"/>
+                        </label>
+
+                        <label>
+                            <span>Password:</span>
+                            <input type="password" autocomplete="off" class="form-control"  name="password" ng-model="login.password"/>
+                        </label>
+                    </fieldset>
+                </form>
+
+
+                <button class="btn btn-primary"  ng-click="login()">Login</button>
+            </div>
+        </div>
+
+    </section>
+    <section ng-show="loggedIn()">
+        <div class="alert alert-dismissable">
+            {{userMessage}}
+        </div>]
+        <div class="container">
+            <div class="row">
+
+                <h2>Companies</h2>
+                <table class="table table-responsive table-bordered">
+                    <tr>
+                        <th>&nbsp;</th>
+                        <th>Company</th>
+                        <th>URL</th>
+                        <th>PersonToBeShadowed</th>
+                    </tr>
+                    <tr ng-repeat="company in companies">
+                        <td>{{ $index + 1}}</td>
+                        <td>{{ company.CompanyName}}</td>
+                        <td>{{ company.CompanyURL}}</td>
+                        <td>{{ company.PersonToBeShadowed}}</td>
+                    </tr>
+                </table>
+
+                <button class="btn btn-warning"  ng-click="logout()">Logout</button>
+            </div>
+        </div>
+
+    </section>
+
+</div>
