@@ -1,47 +1,104 @@
   <!-- About Section -->
-<section id="companies">
+<section id="students" ng-controller="formsubmission.controller">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
                 <h1 class="section-heading">Apply (Students)</h1>
             </div>
         </div>
+
+        <div ng-show="!(form.posted)" class="row">
+            <div class="col-lg-12 text-center">
+                <h2>infoTech WNY Shadow Program</h2>
+                <h1 class="section-heading">Student Registration</h1>
+
+            </div>
+        </div>
+
+
+
         <div class="row">
             <h3  class="text-center">Student submissions will open on Dec. 1st.</h3>
-            <!--
-            Form goes here
-            Name
-            Email
-            Phone
-            School
-            LinkedIn Profile
-            Resume URL OR (upload)
-
-            Interested Fields *
-            (Choose up to 3)
-            IT Security
-            Database Administration
-            IT Support
-            Enterprise Computing
-            Enterprise Software Implementation & Consulting
-            IT Project Management
-            App/Application Development
-            Network & Systems Administration
-            System Architecture
-            Web Development
-            IT Systems Analysis
-            Telecommunications Administration/Management
-            Usability/Information Architecture
-            UI/UX Design
-            Startup Founder/Entrepreneur
-            Other:
+            <div ng-show="(form.posted)" class="col-lg-12 text-center">
 
 
-            Work Authorization * US Resident; Permanent Resident; Student Visa
+                <h2>Thank you for your submission!</h2>
+                <p>Your submission ID is <strong>{{ form.id }}</strong>.</p>
+                <p>We'll try our best to match you within your areas of interest. If you have any questions about the program or need to change your responses, please feel free to contact Melissa Ruggiero (<a href="mailto:mrugg@buffalo.edu">mrugg@buffalo.edu</a>) . An InfoTech WNY Shadow Program committee member will be in touch via email closer to the shadow days with your match or to request more information.
 
-            In what town will you be living during Jan. 8 or 9, 2015 (i.e. Niagara Falls, North Buffalo, Orchard Park, Irving)
+            </div>
 
--->
+
+            <form novalidate name="userForm" ng-submit="false"  ng-show="!(form.posted)">
+                <div class="col-md-offset-2 col-md-8">
+
+                    <div class="form-group" ng-class="{ 'has-error': (userForm.$submitted || userForm.Name.$touched) && userForm.Name.$invalid }">
+                        <label for="CompanyName">Name *</label>
+                        <input required type="text" ng-model="form.Name" class="form-control" name="Name" id="Name">
+                        <span class="text-danger" ng-messages="userForm.Name.$error" ng-show="userForm.$submitted || userForm.Name.$touched" >
+                            <span  ng-message="required">Your name is required.</span>
+                        </span>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error': (userForm.$submitted || userForm.Email.$touched) && userForm.Email.$invalid }">
+                        <label for="Email">Email * (please use school email address)</label>
+                        <input required type="text" ng-model="form.Email" class="form-control" name="Email" id="Email">
+                        <span class="text-danger" ng-messages="userForm.Email.$error" ng-show="userForm.$submitted || userForm.Email.$touched" >
+                            <span  ng-message="required">Your email is required.</span>
+                        </span>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error': (userForm.$submitted || userForm.Phone.$touched) && userForm.Phone.$invalid }">
+                        <label for="Phone">Contact Phone Number *</label>
+                        <input required type="text" ng-model="form.Phone" class="form-control" name="Phone" id="Phone">
+                        <span class="text-danger" ng-messages="userForm.Phone.$error" ng-show="userForm.$submitted || userForm.Phone.$touched" >
+                            <span  ng-message="required">The contact phone number is required.</span>
+                        </span>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error': (userForm.$submitted || userForm.School.$touched) && userForm.School.$invalid }">
+                        <label for="School">School *</label>
+                        <input required type="text" ng-model="form.School" class="form-control" name="School" id="School">
+                        <span class="text-danger" ng-messages="userForm.School.$error" ng-show="userForm.$submitted || userForm.School.$touched" >
+                            <span  ng-message="required">Your school is required.</span>
+                        </span>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error': (userForm.$submitted || userForm.LinkedInProfile.$touched) && userForm.LinkedInProfile.$invalid }">
+                        <label for="LinkedInProfile">LinkedIn Profile</label>
+                        <input type="text" ng-model="form.LinkedInProfile" class="form-control" id="LinkedInProfile">
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error': (userForm.$submitted || userForm.Resume.$touched) && userForm.Resume.$invalid }">
+                        <label for="School">Resume *</label>
+                        <input  type="file" ng-model="form.Resume" base-sixty-four-input class="form-control" name="Resume" id="Resume">
+                        <span class="text-danger" ng-messages="userForm.Resume.$error" ng-show="userForm.$submitted || userForm.Resume.$touched" >
+                            <span  ng-message="required">Your Resume is required.</span>
+                        </span>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error': (userForm.$submitted || userForm.studentLevel.$touched) && userForm.studentLevel.$invalid }">
+                        <label for="School">Degree Level *</label>
+                        <div ng-repeat="level in studentlevels" class="checkbox">
+                            <input ng-model="form.studentLevel" type="radio" name="studentLevel">&nbsp;{{ level }}
+                        </div>
+                        </label>
+                    </div>
+                    <label>Interested fields *</label>
+                    <br>(Choose up to 3)
+
+                    <div ng-repeat="area in areas" class="checkbox">
+                        <label><input ng-model="form.areas[area]" type="checkbox">{{ area }}
+                            <input ng-show="form.areas['Other:'] == true && area == 'Other:'" ng-model="form.AreaOther" class="form-control" name="AreaOther">
+                        </label>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error': (userForm.$submitted || userForm.Town.$touched) && userForm.Town.$invalid }">
+                        <label for="Town">In what town will you be living during Jan. 7 or 8, 2016 (i.e. Niagara Falls, North Buffalo, Orchard Park, Irving)
+                        </label>
+                        <input type="text" ng-model="form.Town" class="form-control" id="Town">
+                    </div>
+
+
+                    <br>
+                    <button type="submit" ng-click="submitForm('Student')" class="btn btn-primary" >Submit</button>
+
+
+                </div>
+            </form>
 
         </div>
     </div>

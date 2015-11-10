@@ -8,6 +8,12 @@ app.controller('formsubmission.controller',function($scope,Azureservice){
 		'Master'
 	];
 
+	$scope.workAuthorization = [
+		'US Citizen',
+		'Bachelor',
+		'Master'
+	];
+
 	$scope.areas = [
 		'Information Security',
 		'Database Administration',
@@ -31,12 +37,32 @@ app.controller('formsubmission.controller',function($scope,Azureservice){
 
 		console.log(type);
 		console.log($scope.userForm.$valid);
-
+		console.log($scope.form);
 
 		if($scope.userForm.$valid){
 
+
 			$scope.form.areas = angular.toJson($scope.form.areas);
-			$scope.form.studentlevels = angular.toJson($scope.form.studentlevels);
+
+			if(type == 'Company'){
+
+				$scope.form.studentlevels = angular.toJson($scope.form.studentlevels);
+
+			};
+
+
+			if(type == 'Student'){
+
+				$scope.form.studentlevels = angular.toJson($scope.form.studentlevels);
+
+				$scope.form.ResumeData = $scope.form.Resume.base64;
+				$scope.form.ResumeFilename = $scope.form.Resume.filename;
+				$scope.form.ResumeSize = $scope.form.Resume.filesize;
+				$scope.form.ResumeType = $scope.form.Resume.filetype;
+				$scope.form.Resume = '';
+				console.log($scope.form);
+
+			};
 
 			Azureservice.insert(type, $scope.form)
 				.then(function(response) {
