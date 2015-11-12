@@ -144,7 +144,11 @@
 
 
                     <br>
-                    <button type="submit" ng-click="submitForm('Student')" class="btn btn-primary">Submit</button>
+                    <button type="submit" ng-disabled="!userForm.$valid" ng-click="submitForm('Student')" class="btn btn-primary" >Submit</button>
+
+                    <br clear="all">
+                    <div ng-show="userForm.$submitted  && !userForm.$valid" class="alert alert-danger"><strong>One or more required fields were not filled out.</strong></div>
+                    <div ng-show="userForm.$submitted  && userForm.$valid" class="alert alert-info">Submitting form... please wait.</div>
 
                 </div>
 
