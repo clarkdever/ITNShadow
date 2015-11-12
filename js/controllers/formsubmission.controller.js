@@ -1,6 +1,7 @@
 app.controller('formsubmission.controller',function($scope,Azureservice){
 
 	$scope.form = {};
+	$scope.formSubmitSuccessful = false;
 
 	$scope.studentlevels = [
 		'Associate',
@@ -66,9 +67,11 @@ app.controller('formsubmission.controller',function($scope,Azureservice){
 
 			Azureservice.insert(type, $scope.form)
 				.then(function(response) {
+
 					console.log(response);
 					$scope.form = response;
 					$scope.form.posted = true;
+
 				}, function(err) {
 					console.error('Azure Error: ' + err);
 				});

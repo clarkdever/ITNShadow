@@ -105,7 +105,7 @@
                     </div>
                     <div class="form-group" ng-class="{ 'has-error':  (userForm.$submitted ||userForm.DressCode.$touched) && userForm.DressCode.$invalid }">
                         <label for="Description">Dress Code for Student: *</label><br>
-                        <select ng-model="userForm.DressCode" name="DressCode" required>
+                        <select ng-model="userForm.DressCode" name="DressCode">
                             <option>Business Formal</option>
                             <option>Business Casual</option>
                             <option>Casual</option>
@@ -179,14 +179,14 @@
 
                             <div class="col col-xs-4" ng-repeat="val in ['US Citizens','US Citizens AND Permanent Residents']" >
 
-                                <input type="radio" ng-model="form.RestrictStudentsTo" name="RestrictStudentsTo" value="{{val}}" ng-required="!RestrictStudentsTo">&nbsp;{{val}}
+                                <input type="radio" ng-model="form.RestrictStudentsTo" name="RestrictStudentsTo" value="{{val}}" ng-required="form.VisaWork == 'No' && !form.RestrictStudentsTo">&nbsp;{{val}}
                             </div>
                             <div class="col col-xs-4"></div>
                         </div>
                         <small>Reminder: this is only a shadow experience, not an internship or any type of employment.</small>
-                        <span class="text-danger" ng-messages="userForm.RestrictStudentsTo.$error" ng-show="userForm.$submitted || userForm.RestrictStudentsTo.$touched" >
+                        <span class="text-danger" ng-disabled="form.posted" ng-messages="userForm.RestrictStudentsTo.$error" ng-show="userForm.$submitted || userForm.RestrictStudentsTo.$touched" >
 
-                            <br><span  ng-message="required">Please identify whether you'll accept students with a Visa or Work Authorization.</span>
+                            <br><span  ng-message="required">Please identify a category of student participation restriction.</span>
 
                         </span>
                     </div>
@@ -197,7 +197,10 @@
 
 
                     <br>
-                    <button type="submit" ng-click="submitForm('Company')" class="btn btn-primary" >Submit</button>
+                    <button type="submit" ng-disabled="!userForm.$valid" ng-click="submitForm('Company')" class="btn btn-primary" >Submit</button>
+<br><br>
+                    <div ng-show="userForm.$submitted  && !userForm.$valid" class="alert alert-danger"><strong>One or more required fields were not filled out.</strong></div>
+                    <div ng-show="userForm.$submitted  && userForm.$valid" class="alert alert-info">Submitting form... please wait.</div>
 
                 </div>
 
