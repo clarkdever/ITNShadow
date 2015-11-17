@@ -3,7 +3,11 @@ app.controller('login.controller',function($scope,Azureservice) {
 
 	$scope.companies = [];
 	$scope.userMessage = '';
-
+	$scope.processing = {
+		login : false,
+		companylist : false,
+		studentlist : false
+	};
 
 	$scope.b64toBlob = function b64toBlob(b64Data, contentType, sliceSize) {
 		contentType = contentType || '';
@@ -70,7 +74,7 @@ app.controller('login.controller',function($scope,Azureservice) {
 	$scope.login = function(){
 
 		$scope.userMessage = '';
-
+		$scope.processing.login = true;
 		Azureservice.invokeApi('login', {
 			method: 'post',
 				body: {
@@ -90,10 +94,11 @@ app.controller('login.controller',function($scope,Azureservice) {
 				$scope.userMessage = 'Login Failed';
 			}
 
-
+			$scope.processing.login = false;
 
 		}, function(err) {
 			console.error('Azure Error: ' + err);
+			$scope.processing.login = false;
 		});
 
 
@@ -101,15 +106,18 @@ app.controller('login.controller',function($scope,Azureservice) {
 	}
 
 	$scope.readCompanies = function(){
+
 		if(Azureservice.isLoggedIn()){
 
 
+			$scope.processing.companylist = true;
 			Azureservice.read('Company')
 				.then(function(items) {
 
 						$scope.companies = items;
-
+					$scope.processing.companylist = false;
 				}).catch(function(error) {
+					$scope.processing.companylist = false;
 				console.log(error)
 			});
 		};
@@ -119,11 +127,13 @@ app.controller('login.controller',function($scope,Azureservice) {
 	$scope.readStudents = function(){
 		if(Azureservice.isLoggedIn()){
 
-
+			$scope.processing.studentlist = true;
 			Azureservice.read('Student')
 				.then(function(items) {
 					$scope.students = items;
+					$scope.processing.studentlist = false;
 				}).catch(function(error) {
+				$scope.processing.studentlist = false;
 				console.log(error)
 			});
 		};

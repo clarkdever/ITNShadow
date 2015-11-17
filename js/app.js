@@ -3,8 +3,7 @@
 // Declare app level module which depends on filters, and services
 var app = angular.module('myApp', [
 	'azure-mobile-service.module',
-
-    'myApp.routes',
+	'ui.router',
 	'ngMessages',
 	'naif.base64'
   ]);
@@ -16,4 +15,7 @@ app.constant('AzureMobileServiceClient', {
 
 app.config(['$compileProvider', function($compileProvider) {
 	$compileProvider.aHrefSanitizationWhitelist(/^\s*(data:application\/octet-stream;)/);
+
 }]);
+
+

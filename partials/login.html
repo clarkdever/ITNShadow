@@ -1,3 +1,4 @@
+<header class="spacer"></header>
 <!-- Login Section -->
 <div ng-controller="login.controller">
 
@@ -25,7 +26,7 @@
                 </form>
 
 
-                <button class="btn btn-primary"  ng-click="login()">Login</button>
+                <button class="btn btn-primary btn-lg" ng-disabled="processing.login" ng-click="login()">Login&nbsp;<i class="fa fa-spin" ng-class="{'fa-spinner' : processing.login}"></i></button>
             </div>
         </div>
 
@@ -39,12 +40,11 @@
         </div>
         <div class="container">
 
-            <div class="row">
 
-                <div class="col-sm-6">
+                <div class="col-sm-12">
 
 
-                <h2>Companies</h2>
+                <h2>Companies&nbsp;<i class="fa fa-spin fa-spinner" ng-class="{'fa-spinner' : processing.companylist}"></i></h2>
                 <table class="table table-responsive table-bordered">
                     <tr>
                         <th>&nbsp;</th>
@@ -61,10 +61,10 @@
                 </table>
 
                 </div>
-                <div class="col-sm-6">
+               <div class="col-sm-12" >
 
 
-                <h2>Students</h2>
+                <h2>Students&nbsp;<i class="fa fa-spin fa-spinner" ng-class="{'fa-spinner' : processing.studentlist}"></i></h2>
                 <table class="table table-responsive table-bordered">
                     <tr>
                         <th>&nbsp;</th>
@@ -84,7 +84,7 @@
 </div>
 
             </div>
-        </div>
+
 
     </section>
 
