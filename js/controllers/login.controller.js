@@ -114,7 +114,8 @@ app.controller('login.controller',function($scope,Azureservice) {
 			Azureservice.read('Company')
 				.then(function(items) {
 
-						$scope.companies = items;
+					$scope.companies = items;
+
 					$scope.processing.companylist = false;
 				}).catch(function(error) {
 					$scope.processing.companylist = false;
@@ -123,6 +124,11 @@ app.controller('login.controller',function($scope,Azureservice) {
 		};
 
 	};
+
+	$scope.parseList = function(list){
+
+		return angular.fromJson(list);
+	}
 
 	$scope.readStudents = function(){
 		if(Azureservice.isLoggedIn()){

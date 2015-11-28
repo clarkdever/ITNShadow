@@ -49,15 +49,67 @@
                     <tr>
                         <th>&nbsp;</th>
                         <th>Company</th>
-                        <th>URL</th>
-                        <th>PersonToBeShadowed</th>
+                        <th>Person To Be Shadowed</th>
+                        <th>Details</th>
                     </tr>
                     <tr ng-repeat="company in companies">
-                        <td>{{ $index + 1}}</td>
-                        <td>{{ company.CompanyName}}</td>
-                        <td>{{ company.CompanyURL}}</td>
-                        <td>{{ company.PersonToBeShadowed}}</td>
+                        <td><a data-toggle="tooltip" title="{{company.id}}">{{ $index + 1}}</a></td>
+                        <td>{{ company.CompanyName}}<br>
+                       {{ company.Address}}<br>
+                            <a href="{{ company.CompanyURL}}">{{ company.CompanyURL}}</a>
+                        </td>
+
+                        <td>{{ company.PersonToBeShadowed}}<br>
+                            {{ company.Title}}<br>
+                            {{ company.Phone}}<br>
+                            <a href="{{ company.Email}}">{{ company.Email}}</a><br>
+                            <br>
+                            <div>
+                                <strong>Description</strong>
+                            <p>{{ company.Description}}</p>
+                            </div>
+
+                            <div ng-show="company.Instructions.length > 0" >
+                                <strong>Instructions</strong><br>
+
+                               <p>{{ company.Instructions}}</p>
+                            </div>
+
+                            <div ng-show="company.LinkedInProfile.length > 0">{{ company.LinkedInProfile}}</div>
+
+                        </td>
+                        <td>
+                            <strong>Areas</strong>
+                            <ul>
+                                <li ng-repeat="(key,value) in parseList(company.areas) track by key">
+                                {{key}}
+                            </li>
+                            </ul>
+                            <strong>Levels</strong>
+                            <ul>
+                                <li ng-show="company.studentlevels == null">Any</li>
+                                <li ng-repeat="(key,value) in parseList(company.studentlevels) track by key">
+                                {{key}}
+                            </li>
+                            </ul>
+                            <strong>Shadows for Each Day</strong>
+                            <div>Day 1: {{ company.ShadowsForDay1}}</div>
+                            <div>Day 2: {{ company.ShadowsForDay2}}</div>
+                            <br>
+                            <div><strong>Visa Work: </strong>   {{ company.VisaWork}}</div>
+                            <div ng-show="company.VisaWork == 'No'">
+                                <strong>Restrict To: </strong>    {{ company.RestrictStudentsTo}}<br>
+                            </div>
+
+
+
+
+                        </td>
                     </tr>
+                   <!-- <tr ng-repeat-end>
+                        <td colspan="4">{{ company}}</td>
+                    </tr>
+-->
                 </table>
 
                 </div>
@@ -69,17 +121,47 @@
                     <tr>
                         <th>&nbsp;</th>
                         <th>Name</th>
-                        <th>Email</th>
-                        <th>Resume</th>
+                        <th>Details</th>
                     </tr>
                     <tr ng-repeat="student in students">
                         <td>{{ $index + 1}}</td>
-                        <td>{{ student.Name}}</td>
-                        <td>{{ student.Email}}</td>
                         <td>
-                            <a style="cursor:pointer"  ng-click="download(student.ResumeData,student.ResumeFilename)">Download {{ student.ResumeFilename }}</a>
+                            {{ student.Name}}<br>
+                            <a href="{{ student.Email}}">{{ student.Email}}</a><br>
+                            Phone:{{ student.Phone}}<br>
+                            <div ng-show="student.LinkedInProfile != ''">LinkedIn: {{ student.LinkedInProfile}}<br></div>
+                            <br>
+                            <a style="cursor:pointer" ng-click="download(student.ResumeData,student.ResumeFilename)">Download {{ student.ResumeFilename }}</a>
+
                         </td>
+                        <td>
+                            <strong>School</strong><br>
+                            {{ student.School}}<br><br>
+                            <div ng-show=" student.Town">
+                                <strong>Town</strong><br>
+                                {{ student.Town}}<br><br>
+                            </div>
+                            <div ng-show=" student.studentLevel">
+                                <strong>Student Level</strong><br>
+                                {{ student.studentLevel}}<br><br>
+                            </div>
+                            <div ng-show="student.WorkAuthorization">
+                            <strong>Work Authortization</strong><br>
+                            {{ student.WorkAuthorization}}<br><br>
+                           </div>
+                            <strong>Areas</strong>
+                            <ul>
+                                <li ng-repeat="(key,value) in parseList(student.areas) track by key">
+                                    {{key}}
+                                </li>
+                                <li ng-show="AreaOther != null">{{AreaOther}}</li>
+
+                                </li>
+                            </ul>
+                        </td>
+
                     </tr>
+
                 </table>
 </div>
 
