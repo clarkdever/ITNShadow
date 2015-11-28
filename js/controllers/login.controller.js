@@ -89,6 +89,7 @@ app.controller('login.controller',function($scope,Azureservice) {
 				Azureservice.setCurrentUser(response);
 
 				$scope.readCompanies();
+				$scope.readStudents();
 
 			}else{
 				$scope.userMessage = 'Login Failed';
