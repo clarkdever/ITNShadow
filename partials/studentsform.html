@@ -107,7 +107,7 @@
                     <br>(Choose up to 3)
 
                     <div ng-repeat="area in areas" class="checkbox">
-                        <label><input ng-model="form.areas[area]" type="checkbox">{{ area }}
+                        <label><input ng-disabled="getLength(form.areas) >= 3 && form.areas[area] != true" ng-model="form.areas[area]" type="checkbox">{{ area }}
                             <input ng-show="form.areas['Other:'] == true && area == 'Other:'" ng-model="form.AreaOther"
                                    class="form-control" name="AreaOther">
                         </label>
@@ -144,12 +144,90 @@
                     </div>
 
 
+                    <div class="form-group"
+                         ng-class="{ 'has-error': (userForm.$submitted || userForm.CompanyPreference.$touched) && userForm.CompanyPreference.$invalid }">
+                        <label for="CompanyPreference">Select three companies to which you'd like to be paired:
+                        </label>
+
+                            <div class="container">
+
+                                <table class="table table-responsive ">
+
+                                    <tr ng-repeat="company in companies | orderBy:'CompanyName'">
+                                        <td><input ng-disabled="getLength(form.CompanyPreference) >= 3 && form.CompanyPreference[company.id] != true" ng-model="form.CompanyPreference[company.id]" type="checkbox" ></td>
+                                        <td width="50%">
+                                            <div><h5>{{ company.CompanyName}}</h5><br>
+                                            {{ company.Address}}<br>
+                                            <a href="{{ company.CompanyURL}}">{{ company.CompanyURL}}</a>
+                                            </div>
+                                            <br>
+                                            <div>
+                                                <strong>Description</strong>
+                                                <p>{{ company.Description}}</p>
+                                            </div>
+
+                                            <div ng-show="company.Instructions.length > 0" >
+                                                <strong>Instructions</strong><br>
+
+                                                <p>{{ company.Instructions}}</p>
+                                            </div>
+
+                                            <div ng-show="company.LinkedInProfile.length > 0">{{ company.LinkedInProfile}}</div>
+
+                                        </td>
+                                        <td  width="40%">
+                                            <strong>Areas</strong>
+                                            <ul>
+                                                <li ng-repeat="(key,value) in parseList(company.areas) track by key">
+                                                    {{key}}
+                                                </li>
+                                            </ul>
+                                            <strong>Levels</strong>
+                                            <ul>
+                                                <li ng-show="company.studentlevels == null">Any</li>
+                                                <li ng-repeat="(key,value) in parseList(company.studentlevels) track by key">
+                                                    {{key}}
+                                                </li>
+                                            </ul>
+                                            <!--
+                                            <strong>Shadows for Each Day</strong>
+                                            <div>Day 1: {{ company.ShadowsForDay1}}</div>
+                                            <div>Day 2: {{ company.ShadowsForDay2}}</div>
+                                            -->
+                                            <br>
+                                            <div><strong>Visa Work: </strong>   {{ company.VisaWork}}</div>
+                                            <div ng-show="company.VisaWork == 'No'">
+                                                <strong>Restrict To: </strong>    {{ company.RestrictStudentsTo}}<br>
+                                            </div>
+
+
+
+
+                                        </td>
+                                    </tr>
+                                    <!-- <tr ng-repeat-end>
+                                         <td colspan="4">{{ company}}</td>
+                                     </tr>
+                 -->
+                                </table>
+
+
+                            </div>
+
+
+                        <span class="text-danger" ng-messages="userForm.CompanyPreference.$error"
+                              ng-show="userForm.$submitted || userForm.CompanyPreference.$touched">
+                            <span ng-message="required">Your town of residence during the program is required.</span>
+                        </span>
+                    </div>
+
+
                     <br>
                     <button type="submit" ng-disabled="!userForm.$valid" ng-click="submitForm('Student')" class="btn btn-xl  btn-primary" >Submit</button>
 
                     <br clear="all">
                     <div ng-show="userForm.$submitted  && !userForm.$valid" class="alert alert-danger"><strong>One or more required fields were not filled out.</strong></div>
-                    <div ng-show="userForm.$submitted  && userForm.$valid" class="alert alert-info">Submitting form... please wait.</div>
+                    <div ng-show="processing.post" class="alert alert-info">Submitting form... please wait.</div>
 
                 </div>
 

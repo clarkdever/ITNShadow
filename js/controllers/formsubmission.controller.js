@@ -2,7 +2,11 @@ app.controller('formsubmission.controller',function($scope,Azureservice){
 
 	$scope.form = {};
 	$scope.formSubmitSuccessful = false;
-
+	$scope.companies = [];
+	$scope.processing = {
+		companylist : false,
+		post: false
+	};
 	$scope.studentlevels = [
 		'Associate',
 		'Bachelor',
@@ -34,6 +38,28 @@ app.controller('formsubmission.controller',function($scope,Azureservice){
 		'Other:'
 	]
 
+
+	$scope.processing.companylist = true;
+	Azureservice.read('Company')
+		.then(function(items) {
+
+			$scope.companies = items;
+console.log($scope.companies);
+			$scope.processing.companylist = false;
+		}).catch(function(error) {
+		$scope.processing.companylist = false;
+		console.log(error)
+	});
+
+	$scope.getLength = function(obj){
+			return _.size(_.keys(_.pick(obj, _.identity)));
+	};
+
+	$scope.parseList = function(list){
+
+		return angular.fromJson(list);
+	}
+
 	$scope.submitForm = function(type){
 
 		console.log(type);
@@ -54,8 +80,14 @@ app.controller('formsubmission.controller',function($scope,Azureservice){
 
 			if(type == 'Student'){
 
+				$scope.processing.post = true;
+				if(!$scope.form.Resume){
+					alert('A resume is required');
+					$scope.processing.post = false;
+					return;
+				};
 				$scope.form.studentlevels = angular.toJson($scope.form.studentlevels);
-
+				$scope.form.CompanyPreference = angular.toJson($scope.form.CompanyPreference);
 				$scope.form.ResumeData = $scope.form.Resume.base64;
 				$scope.form.ResumeFilename = $scope.form.Resume.filename;
 				$scope.form.ResumeSize = $scope.form.Resume.filesize;
@@ -67,12 +99,13 @@ app.controller('formsubmission.controller',function($scope,Azureservice){
 
 			Azureservice.insert(type, $scope.form)
 				.then(function(response) {
-
+					$scope.processing.post = false;
 					console.log(response);
 					$scope.form = response;
 					$scope.form.posted = true;
 
 				}, function(err) {
+					$scope.processing.post = false;
 					console.error('Azure Error: ' + err);
 				});
 
