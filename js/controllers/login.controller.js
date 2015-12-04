@@ -3,11 +3,38 @@ app.controller('login.controller',function($scope,Azureservice) {
 
 	$scope.companies = [];
 	$scope.userMessage = '';
+	$scope.currentCompanyId = null;
 	$scope.processing = {
 		login : false,
 		companylist : false,
-		studentlist : false
+		studentlist : false,
+		resume: false
 	};
+
+	$scope.studentlevels = [
+		'Associate',
+		'Bachelor',
+		'Master'
+	];
+
+	$scope.areas = [
+		'Information Security',
+		'Database Administration',
+		'Technical Support',
+		'Enterprise Computing',
+		'Enterprise Software Implementation & Consulting',
+		'IT Project Management',
+		'App/Application Development',
+		'Network & Systems Administration',
+		'System Architecture',
+		'Web Development',
+		'IT Systems Analysis',
+		'UI/UX Design',
+		'Usability/Information Architecture',
+		'Telecommunications Administration/Management',
+		'Startup Founder/Entrepreneur',
+		'Other:'
+	]
 
 	$scope.b64toBlob = function b64toBlob(b64Data, contentType, sliceSize) {
 		contentType = contentType || '';
@@ -33,18 +60,48 @@ app.controller('login.controller',function($scope,Azureservice) {
 		return blob;
 	}
 
-	$scope.download = function(b64Data,fileName){
+	$scope.download = function(studentId,fileName){
 
-		var blob = $scope.b64toBlob(b64Data, 'application/octet-stream');
-		var blobUrl = URL.createObjectURL(blob);
+		$scope.processing.resume = true;
 
-		var a = document.createElement("a");
-		document.body.appendChild(a);
-		a.style = "display: none";
-		a.href = blobUrl;
-		a.download = fileName;
-		a.click();
-		window.URL.revokeObjectURL(blobUrl);
+		Azureservice.invokeApi('downloadresume', {
+				method: 'post',
+				body: {
+					studentid : studentId
+				}
+			})
+			.then(function(response) {
+
+					if(response.length == 1){
+						data = response[0];
+						console.log(data);
+
+
+						var blob = $scope.b64toBlob(data.ResumeData, 'application/octet-stream');
+						var blobUrl = URL.createObjectURL(blob);
+
+						var a = document.createElement("a");
+						document.body.appendChild(a);
+						a.style = "display: none";
+						a.href = blobUrl;
+						a.download = fileName;
+						a.click();
+						window.URL.revokeObjectURL(blobUrl);
+						$scope.processing.resume = false;
+					}else{
+						alert('Could not download resume.')
+						$scope.processing.resume = false;
+					}
+
+
+			}, function(err) {
+				console.error('Azure Error: ' + err);
+				$scope.processing.resume = false;
+
+			});
+
+
+
 
 
 
@@ -137,7 +194,46 @@ app.controller('login.controller',function($scope,Azureservice) {
 			$scope.processing.studentlist = true;
 			Azureservice.read('Student')
 				.then(function(items) {
+
+
+					console.log(items);
+
+					_.forEach(items,function(item){
+						var CompanyPreference = [];
+						var companyPref = angular.fromJson(item.CompanyPreference);
+
+						if(companyPref){
+							//companyPref = _.keys(_.pick(companyPref, _.identity))
+
+
+							_.forEach(companyPref,function(value,key){
+
+
+								CompanyPreference.push( _.find($scope.companies, function(company) {
+
+									if(company.id == key){
+
+										console.log(company,key)
+										return company;
+									}
+
+								}));
+
+							});
+
+							item.CompanyPreference = CompanyPreference;
+						}
+
+
+
+
+
+
+
+					});
+
 					$scope.students = items;
+
 					$scope.processing.studentlist = false;
 				}).catch(function(error) {
 				$scope.processing.studentlist = false;
@@ -146,6 +242,43 @@ app.controller('login.controller',function($scope,Azureservice) {
 		};
 
 	};
+
+
+	$scope.setCurrentCompany = function(company){
+
+		$scope.currentCompany= company;
+		$scope.currentCompany.areas = angular.fromJson(company.areas);
+		$scope.currentCompany.studentlevels = angular.fromJson(company.studentlevels);
+	};
+
+	$scope.saveCurrentCompany = function(){
+
+		var company = $scope.currentCompany;
+		delete company.$$hashKey;
+		console.log(company);
+
+		company.areas = angular.toJson(company.areas);
+		company.studentlevels = angular.toJson(company.studentlevels);
+
+		console.log(company);
+		$scope.processing.post = true;
+		Azureservice.update('Company', company)
+			.then(function(response) {
+				$scope.processing.post = false;
+				console.log(response);
+				$scope.form = response;
+				$scope.form.posted = true;
+
+			}, function(err) {
+				$scope.processing.post = false;
+				alert('There was an error updating the record. Please report the following error to your sys admin ['  + err + ']')
+				console.error('Azure Error: ' + err);
+			});
+
+
+		$scope.currentCompany= null;
+	};
+
 
 	$scope.init();
 

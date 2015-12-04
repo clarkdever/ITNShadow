@@ -44,7 +44,7 @@ app.controller('formsubmission.controller',function($scope,Azureservice){
 		.then(function(items) {
 
 			$scope.companies = items;
-console.log($scope.companies);
+			console.log($scope.companies);
 			$scope.processing.companylist = false;
 		}).catch(function(error) {
 		$scope.processing.companylist = false;
