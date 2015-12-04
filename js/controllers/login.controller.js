@@ -264,13 +264,10 @@ app.controller('login.controller',function($scope,Azureservice) {
 		$scope.processing.post = true;
 		Azureservice.update('Company', company)
 			.then(function(response) {
-				$scope.processing.post = false;
 				console.log(response);
-				$scope.form = response;
-				$scope.form.posted = true;
 
 			}, function(err) {
-				$scope.processing.post = false;
+
 				alert('There was an error updating the record. Please report the following error to your sys admin ['  + err + ']')
 				console.error('Azure Error: ' + err);
 			});
@@ -279,6 +276,30 @@ app.controller('login.controller',function($scope,Azureservice) {
 		$scope.currentCompany= null;
 	};
 
+
+	$scope.setAssignment = function(student){
+
+		var studentToSave = {
+			id : student.id,
+			AssignedCompany: student.AssignedCompany,
+			AssignedDay : student.AssignedDay
+		};
+
+
+		Azureservice.update('Student', studentToSave)
+			.then(function(response) {
+				$scope.processing.assign = false;
+
+			}, function(err) {
+				$scope.processing.assign = false;
+				alert('There was an error updating the record. Please report the following error to your sys admin ['  + err + ']')
+				console.error('Azure Error: ' + err);
+			});
+
+
+
+
+	}
 
 	$scope.init();
 

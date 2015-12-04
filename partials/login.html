@@ -71,8 +71,8 @@
                         <TD></TD>
                         <td colspan="3"><h3>{{company.CompanyName}}</h3></td>
                     </tr>
-                    <tr>
-                        <td rowspan="3" width="10%"><!--
+                    <tr  ng-show="currentCompany == null || company.id == currentCompany.id">
+                        <td rowspan="4" width="10%"><!--
                         <a data-toggle="tooltip" title="{{company.id}}">{{ $index + 1}}</a>
                         -->
                             <button ng-show="company.id != currentCompany.id" ng-click="setCurrentCompany(company)"
@@ -150,15 +150,8 @@
                                         type="checkbox" ng-model="currentCompany.studentlevels[level]"> {{level}}
                                 </li>
                             </ul>
-                            <strong>Shadows for Each Day</strong>
 
-                            <div>Day 1: <input type="text" ng-class="{ 'nonEdit' : currentCompany == null }"
-                                               ng-disabled="currentCompany == null" class="form-control"
-                                               style="width:100px" ng-model="company.ShadowsForDay1"></div>
-                            <div>Day 2: <input type="text" ng-class="{ 'nonEdit' : currentCompany == null }"
-                                               ng-disabled="currentCompany == null" class="form-control"
-                                               style="width:100px" ng-model="company.ShadowsForDay2"></div>
-                            <br>
+
 
                             <div><strong>Visa Work: </strong> <select ng-class="{ 'nonEdit' : currentCompany == null }"
                                                                       ng-disabled="currentCompany == null"
@@ -180,7 +173,46 @@
 
                         </td>
                     </tr>
-                    <tr>
+                    <tr  ng-show="currentCompany == null || company.id == currentCompany.id">
+
+                        <td colspan="2">
+
+                            <label>Day 1</label><BR>
+                            <label>Total Slots: </label><input type="text" ng-class="{ 'nonEdit' : currentCompany == null }"
+                                               ng-disabled="currentCompany == null" class="form-control"
+                                               style="width:100px" ng-model="company.ShadowsForDay1">
+                            <label>Slots Remaining</label>
+                            {{ company.ShadowsForDay1 - day1Students.length}}
+                            <BR>
+                            <label>Students Assigned</label>
+                            <ol>
+                                <li ng-repeat="student in day1Students = (students | filter:{ AssignedCompany : company.id, AssignedDay : '1'})">{{ student.Name }}</li>
+                            </ol>
+                            <div ng-show="day1Students.length ==0">
+                                None
+                            </div>
+                        </td>
+                        <td>
+                            <label>Day 2</label><BR>
+                            <label>Total Slots: </label><input type="text" ng-class="{ 'nonEdit' : currentCompany == null }"
+                                                                   ng-disabled="currentCompany == null" class="form-control"
+                                                                   style="width:100px" ng-model="company.ShadowsForDay2">
+                            <label>Slots Remaining</label>
+                            {{ company.ShadowsForDay2 - day2Students.length}}
+                            <BR>
+                            <label>Students Assigned</label>
+                            <div ng-show="day2Students.length ==0">
+                                None
+                            </div>
+                            <ol>
+                                <li ng-repeat="student in day2Students = (students  | filter:{ AssignedCompany : company.id, AssignedDay : '2'})">{{ student.Name }}</li>
+                            </ol>
+
+                        </td>
+
+
+                    </tr>
+                    <tr  ng-show="currentCompany == null || company.id == currentCompany.id">
 
                         <td colspan="3">
                             <div class="form-group">
@@ -194,17 +226,19 @@
                         </td>
                     </tr>
 
-                    <tr ng-repeat-end>
+
+
+                    <tr ng-show="currentCompany == null || company.id == currentCompany.id" ng-repeat-end>
 
                         <td colspan="3">
 
                             <div class="form-group"><label>Instructions</label><textarea
                                     ng-class="{ 'nonEdit' : currentCompany == null }"
                                     ng-disabled="currentCompany == null" class="form-control" placeholder="Instructions"
-                                    type="text" rows="10" ng-model=" company.Instructions"></textarea></div>
+                                    type="text" rows="10" ng-model="company.Instructions"></textarea></div>
                         </td>
-                    </tr>
 
+                    </tr>
                 </table>
 
             </div>
@@ -219,7 +253,7 @@
                     </tr>
                     <tr ng-repeat="student in students">
                         <td>{{ $index + 1}}<br>
-                            <button class="btn btn-primary">Edit</button>
+                          <!--  <button class="btn btn-primary">Edit</button> -->
                         </td>
                         <td>
                             {{ student.Name}}<br>
@@ -245,6 +279,21 @@
                                         {{company.CompanyName}}
                                     </li>
                                 </ul>
+
+                            </div>
+
+                            <div>
+                                <label>Assigned Company</label>
+                                <select class="form-control" ng-model="student.AssignedCompany">
+                                    <option  value="">NOT ASSIGNED</option>
+                                    <option ng-repeat="company in companies | orderBy: 'CompanyName'"  value="{{ company.id }}">{{company.CompanyName}}<br>({{company.PersonToBeShadowed}})</option>
+                                </select>
+                                <label>Assigned Day</label>
+                                <select class="form-control" ng-model="student.AssignedDay">
+                                    <option  value="">NOT ASSIGNED</option>
+                                    <option ng-repeat="day in [1,2]"  value="{{ day }}">{{day}}</option>
+                                </select>
+                                <button class="btn btn-primary" ng-click="setAssignment(student)">Set Assignment</button>
 
                             </div>
 
