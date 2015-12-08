@@ -4,6 +4,11 @@ app.controller('login.controller',function($scope,Azureservice) {
 	$scope.companies = [];
 	$scope.userMessage = '';
 	$scope.currentCompanyId = null;
+	$scope.studentTake = 300;
+	$scope.studentsTotalCount = 0;
+	$scope.studentsPagination = [];
+
+
 	$scope.processing = {
 		login : false,
 		companylist : false,
@@ -192,7 +197,9 @@ app.controller('login.controller',function($scope,Azureservice) {
 		if(Azureservice.isLoggedIn()){
 
 			$scope.processing.studentlist = true;
-			Azureservice.read('Student')
+			Azureservice.query('Student',{
+				take: $scope.studentTake
+			})
 				.then(function(items) {
 
 
@@ -213,7 +220,7 @@ app.controller('login.controller',function($scope,Azureservice) {
 
 									if(company.id == key){
 
-										console.log(company,key)
+
 										return company;
 									}
 
@@ -233,6 +240,9 @@ app.controller('login.controller',function($scope,Azureservice) {
 					});
 
 					$scope.students = items;
+					$scope.studentsTotalCount = items.totalCount;
+
+					$scope.studentsPagination = Array.apply(null, {length: (items.totalCount % $scope.studentTake)-1}).map(Number.call , Number) ;
 
 					$scope.processing.studentlist = false;
 				}).catch(function(error) {
