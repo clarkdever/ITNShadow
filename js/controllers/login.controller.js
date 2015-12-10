@@ -13,7 +13,8 @@ app.controller('login.controller',function($scope,Azureservice) {
 		login : false,
 		companylist : false,
 		studentlist : false,
-		resume: false
+		resume: false,
+		delete : false
 	};
 
 	$scope.studentlevels = [
@@ -178,7 +179,7 @@ app.controller('login.controller',function($scope,Azureservice) {
 				.then(function(items) {
 
 					$scope.companies = items;
-
+					console.log('Companies',$scope.companies);
 					$scope.processing.companylist = false;
 				}).catch(function(error) {
 					$scope.processing.companylist = false;
@@ -286,6 +287,65 @@ app.controller('login.controller',function($scope,Azureservice) {
 		$scope.currentCompany= null;
 	};
 
+	$scope.setCurrentStudent = function(student){
+
+		$scope.currentStudent = student;
+
+	};
+
+	$scope.saveCurrentStudent = function(){
+
+		var student = {
+			id : $scope.currentStudent.id,
+			Name : $scope.currentStudent.Name,
+			Email : $scope.currentStudent.Email,
+			Phone : $scope.currentStudent.Phone,
+			School : $scope.currentStudent.School,
+			Town : $scope.currentStudent.Town
+
+		};
+
+
+		console.log(student);
+
+
+		$scope.processing.post = true;
+		Azureservice.update('Student', student)
+			.then(function(response) {
+				console.log(response);
+				$scope.processing.post = false;
+			}, function(err) {
+				$scope.processing.post = false;
+				alert('There was an error updating the record. Please report the following error to your sys admin ['  + err + ']')
+				console.error('Azure Error: ' + err);
+			});
+
+
+		$scope.currentStudent = null;
+	};
+
+
+
+	$scope.deleteStudent = function(student){
+
+		var studentToSave = {
+			id : student.id,
+			Active: false
+		};
+
+		$scope.processing.delete = true;
+		Azureservice.update('Student', studentToSave)
+			.then(function(response) {
+				$scope.processing.delete = false;
+
+			}, function(err) {
+				$scope.processing.delete = false;
+				alert('There was an error updating the record. Please report the following error to your sys admin ['  + err + ']')
+				console.error('Azure Error: ' + err);
+			});
+
+
+	};
 
 	$scope.setAssignment = function(student){
 
@@ -295,7 +355,7 @@ app.controller('login.controller',function($scope,Azureservice) {
 			AssignedDay : student.AssignedDay
 		};
 
-
+		$scope.processing.assign = true;
 		Azureservice.update('Student', studentToSave)
 			.then(function(response) {
 				$scope.processing.assign = false;

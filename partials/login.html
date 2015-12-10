@@ -68,7 +68,7 @@
 
                     <tr ng-show="currentCompany == null || company.id == currentCompany.id"
                         ng-repeat-start="company in companies">
-                        <TD></TD>
+                        <td></td>
                         <td colspan="3"><h3>{{company.CompanyName}}</h3></td>
                     </tr>
                     <tr  ng-show="currentCompany == null || company.id == currentCompany.id">
@@ -251,14 +251,35 @@
                         <th>Name</th>
                         <th>Details</th>
                     </tr>
-                    <tr ng-repeat="student in students">
+                    <tr ng-repeat="student in students | filter:{Active: null}">
                         <td>{{ $index + 1}}<br>
-                          <!--  <button class="btn btn-primary">Edit</button> -->
+                            <button ng-show="student.id != currentStudent.id" ng-click="setCurrentStudent(student)"
+                                    class="btn btn-default">Edit
+                            </button>
+                            <button ng-show="student.id == currentStudent.id" ng-click="saveCurrentStudent()"
+                                    class="btn btn-primary">Save
+                            </button>
+                            <button ng-show="student.id == currentStudent.id" ng-click="deleteStudent(student)"
+                                    class="btn btn-primary">Delete
+                            </button>
+
                         </td>
                         <td>
-                            {{ student.Name}}<br>
-                            <a href="mailto:{{ student.Email}}"> {{ student.Email}}</a><br>
-                            Phone: {{ student.Phone}}<br>
+                            <div class="form-group"><label>Name</label><input
+                                    ng-class="{ 'nonEdit' : currentStudent == null }"
+                                    ng-disabled="currentStudent == null" class="form-control"
+                                    placeholder="Name" type="text"
+                                    ng-model="student.Name"></div>
+                            <div class="form-group"><label>Email</label><input
+                                    ng-class="{ 'nonEdit' : currentStudent == null }"
+                                    ng-disabled="currentStudent == null" class="form-control"
+                                    placeholder="Email" type="text"
+                                    ng-model="student.Email"></div>
+                            <div class="form-group"><label>Phone</label><input
+                                    ng-class="{ 'nonEdit' : currentStudent == null }"
+                                    ng-disabled="currentStudent == null" class="form-control"
+                                    placeholder="Phone" type="text"
+                                    ng-model="student.Phone"></div>
 
                             <div ng-show="student.LinkedInProfile != ''"><a href="{{ student.LinkedInProfile}}">LinkedIn
                                 Profile</a><br></div>
@@ -276,7 +297,7 @@
                                 <ul>
 
                                     <li ng-repeat="company in student.CompanyPreference track by $index">
-                                        {{company.CompanyName}}
+                                        {{company.CompanyName}} ({{company.PersonToBeShadowed}})
                                     </li>
                                 </ul>
 
@@ -299,13 +320,18 @@
 
                         </td>
                         <td>
-                            <strong>School</strong><br>
-                            {{ student.School}}<br><br>
+                            <div class="form-group"><label>School</label><input
+                                    ng-class="{ 'nonEdit' : currentStudent == null }"
+                                    ng-disabled="currentStudent == null" class="form-control"
+                                    placeholder="School" type="text"
+                                    ng-model="student.School"></div>
+                            <div class="form-group"><label>Town</label><input
+                                    ng-class="{ 'nonEdit' : currentStudent == null }"
+                                    ng-disabled="currentStudent == null" class="form-control"
+                                    placeholder="Town" type="text"
+                                    ng-model="student.Town"></div>
 
-                            <div ng-show="student.Town">
-                                <strong>Town</strong><br>
-                                {{ student.Town}}<br><br>
-                            </div>
+
                             <div ng-show="student.studentLevel">
                                 <strong>Student Level</strong><br>
                                 {{ student.studentLevel}}<br><br>
@@ -321,7 +347,6 @@
                                 </li>
                                 <li ng-show="AreaOther != null">{{AreaOther}}</li>
 
-                                </li>
                             </ul>
                         </td>
 
