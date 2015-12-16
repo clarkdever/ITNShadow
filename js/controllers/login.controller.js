@@ -460,6 +460,7 @@ app.controller('login.controller',function($scope,Azureservice) {
 
 				// update the student to identify that we've sent n email
 				$scope.processing.post = true;
+				student.emailSent = true;
 				Azureservice.update('Student', {
 						id: student.id,
 						emailSent: true
