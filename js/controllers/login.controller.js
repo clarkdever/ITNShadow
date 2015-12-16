@@ -371,6 +371,117 @@ app.controller('login.controller',function($scope,Azureservice) {
 
 	}
 
+	$scope.sendConfirmationEmail = function(company,student) {
+
+
+		console.log(student, company);
+
+		var AssignedDate = "January 7th, 2016";
+
+		if (student.AssignedDate == 2) {
+			AssignedDate = "January 8th, 2016";
+		}
+
+
+		var areas = [];
+		_.forIn(JSON.parse(student.areas), function (value, key) {
+			if (value == true) {
+				areas.push(key);
+			}
+		});
+
+
+		var htmlEmail = '';
+		htmlEmail += '<p>';
+		htmlEmail += 'Dear ' + company.PersonToBeShadowed + ' and ' + student.Name + ',';
+		htmlEmail += '';
+		htmlEmail += '</p>';
+		htmlEmail += '<p>';
+		htmlEmail += 'We are delighted that you are participating in the infoTech WNY Shadowing Program. ' + student.Name + ', you are shadowing  ' + company.PersonToBeShadowed + ' at ' + company.CompanyName + ', info below.  Please confirm with this contact via email and ask any additional questions this email does not address.';
+		htmlEmail += '</p>';
+		htmlEmail += '<p>';
+		htmlEmail += '<strong>Student for ' + AssignedDate + ':</strong><br>';
+		htmlEmail += student.Name + '<br>' + student.Email + '<br>' + student.Phone + '<br>';
+		htmlEmail += 'Resume: <a download="' + student.ResumeFilename + '" href="https://studentshadow.azure-mobile.net/api/downloadresume?studentid=' + student.id + '">' + student.ResumeFilename + '</a><br>';
+		htmlEmail += 'LinkedIn:' + student.LinkedInProfile + '<br>';
+		htmlEmail += '</p>';
+		htmlEmail += '<p>';
+		htmlEmail += 'Interested in ' + areas.join(', ');
+		htmlEmail += '</p>';
+		htmlEmail += '<p>';
+		htmlEmail += '<strong>Shadow Sponsor:</strong><br>' + company.PersonToBeShadowed + '<br>' + company.Title + '<br>' + company.Phone + '<br>' + company.Email + '<br>';
+
+		if (company.LinkedInProfile != null) {
+			htmlEmail += 'LinkedIn:' + company.LinkedInProfile + '<br>';
+		}
+		htmlEmail += '<br><strong>Location:</strong>   ' + company.CompanyName + '<br>' + company.Address + '<br>';
+		if (company.Instructions != null && company.Instructions.length > 0) {
+			htmlEmail += '<strong>Specifics:</strong> ' + company.Instructions + '';
+		}
+		htmlEmail += '<br><strong>URL:</strong>' + company.CompanyURL;
+		htmlEmail += '</p>';
+		htmlEmail += '<p>';
+		htmlEmail += '<strong>Professional\'s job description: </strong><br>' + company.Description + '';
+		htmlEmail += '</p>';
+		htmlEmail += '<p>';
+		htmlEmail += '<strong>Student:</strong> Confirm this shadow day via email to the company contact (and cc me) ASAP.  This email will also introduce yourself and give you a chance to ask any questions you may have about the logistics for that day. Please visit this <a href="http://itnshadow.shatterit.com/TipSheet.pdf">tip sheet</a> so you can prepare for the day. You are responsible for being on time and for your travel arrangements for that day. If your plans change, you need to contact me and your shadowing contact immediately.  Take another look at the info on the shadow website to see any info the company listed about the day (i.e. where to park, etc.). By the way, the contact may not be the actual person you are shadowing; Sometimes the contact sets up additional professionals in the place of business for you to shadow.';
+		htmlEmail += '</p>';
+		htmlEmail += '<p>';
+		htmlEmail += 'Please make your reliable travel arrangements for that day soon if you do not have a car. The companies plan their day around this educational experience for you and when a student does not show, it can cause disruption in their day, not to mention make you look bad as an up-coming professional and disparages your school’s name.';
+		htmlEmail += '</p>';
+		htmlEmail += '<p>';
+		htmlEmail += '<strong>Shadow Sponsor:</strong>  Your assigned student’s information is included.  If you require anything additional, please request that from the student. If the student does not contact you independently soon, you can reach out yourself. However, if the student does not reach out by three days before the visit, this is cause for concern. Maybe the student is not participating after all and we can assign a different student.';
+		htmlEmail += '</p>';
+		htmlEmail += '<p>';
+		htmlEmail += 'Let me know if you have questions and we’ll follow up afterwards.';
+		htmlEmail += '</p>';
+		htmlEmail += '<p>';
+		htmlEmail += 'Melissa Ruggiero, mrugg@buffalo.edu, 645-3232<br>';
+		htmlEmail += 'Peter Ronca, Chair, infoTechWNY<br>';
+		htmlEmail += 'Michelle Kavanaugh, Ed.D.President of WNY STEM<br>';
+		htmlEmail += 'Kim Grant, UB Center of Excellence<br>';
+		htmlEmail += '<strong>InfoTech WNY Shadow Program Committee</strong><br>';
+		htmlEmail += '</p>';
+
+
+		var message = {
+			toCompany: company.Email,
+			toStudent: student.Email,
+			studentId: student.id,
+			message: htmlEmail
+		}
+
+		// call the messaging api
+		Azureservice.invokeApi('messaging', {
+				method: 'post',
+				body: message
+			})
+			.then(function (response) {
+
+				// update the student to identify that we've sent n email
+				$scope.processing.post = true;
+				Azureservice.update('Student', {
+						id: student.id,
+						emailSent: true
+					})
+					.then(function (response) {
+						console.log(response);
+						$scope.processing.post = false;
+					}, function (err) {
+						$scope.processing.post = false;
+						alert('There was an error updating the record. Please report the following error to your sys admin [' + err + ']')
+						console.error('Azure Error: ' + err);
+					});
+
+
+			}, function (err) {
+				console.error('Azure Error: ' + err);
+				$scope.processing.resume = false;
+
+			});
+	};
+
+
 	$scope.init();
 
 });

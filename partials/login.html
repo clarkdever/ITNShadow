@@ -186,7 +186,10 @@
                             <BR>
                             <label>Students Assigned</label>
                             <ol>
-                                <li ng-repeat="student in day1Students = (students | filter:{ AssignedCompany : company.id, AssignedDay : '1'})">{{ student.Name }}</li>
+                                <li ng-repeat="student in day1Students = (students | filter:{ AssignedCompany : company.id, AssignedDay : '1'})">{{ student.Name }}
+                                    <br>
+                                    <button class="btn btn-default" ng-click="sendConfirmationEmail(company,student)">Send Email<span ng-if="student.emailSent" > Again</span></button>
+                                </li>
                             </ol>
                             <div ng-show="day1Students.length ==0">
                                 None
@@ -205,7 +208,10 @@
                                 None
                             </div>
                             <ol>
-                                <li ng-repeat="student in day2Students = (students  | filter:{ AssignedCompany : company.id, AssignedDay : '2'})">{{ student.Name }}</li>
+                                <li ng-repeat="student in day2Students = (students  | filter:{ AssignedCompany : company.id, AssignedDay : '2'})">{{ student.Name }}
+                                    <br>
+                                    <button class="btn btn-default" ng-click="sendConfirmationEmail(company,student)">Send Email<span ng-if="student.emailSent" > Again</span></button>
+                                </li>
                             </ol>
 
                         </td>
