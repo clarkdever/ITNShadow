@@ -444,12 +444,14 @@ app.controller('login.controller',function($scope,Azureservice) {
 		htmlEmail += '</p>';
 
 
+		console.log(htmlEmail);
 		var message = {
 			toCompany: company.Email,
 			toStudent: student.Email,
 			studentId: student.id,
 			message: htmlEmail
 		}
+
 
 		// call the messaging api
 		Azureservice.invokeApi('messaging', {
@@ -480,6 +482,8 @@ app.controller('login.controller',function($scope,Azureservice) {
 				$scope.processing.resume = false;
 
 			});
+
+
 	};
 
 
