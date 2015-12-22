@@ -378,7 +378,7 @@ app.controller('login.controller',function($scope,Azureservice) {
 
 		var AssignedDate = "January 7th, 2016";
 
-		if (student.AssignedDate == 2) {
+		if (student.AssignedDay == 2) {
 			AssignedDate = "January 8th, 2016";
 		}
 
