@@ -43,20 +43,20 @@ angular.module('myApp.routes', ['ngRoute'])
 app.config(function($stateProvider, $urlRouterProvider) {
 	//
 	// For any unmatched url, redirect to /state1
-	$urlRouterProvider.otherwise("/");
+	$urlRouterProvider.otherwise("/info");
 	//
 	// Now set up the states
 	$stateProvider
 
 		.state('home', {
 			url: "/",
-			templateUrl: 'partials/home.html'
+			templateUrl: 'partials/info.html'
 		})
 		.state('info', {
 			url: "/info",
 			templateUrl: 'partials/info.html'
 		})
-		.state('home2', {
+		/* .state('home2', {
 			url: "/home",
 			templateUrl: 'partials/home.html'
 		})
@@ -92,7 +92,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			templateUrl: 'partials/login.html'
 		})
 
-
+*/
 
 
 });
